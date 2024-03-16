@@ -1,0 +1,14 @@
+.contact-us-container {
+  margin: 0 auto;
+  padding: 50px;
+  text-align: center;
+  background-image: url("../../public/assets/imgs/NetFlicksLogin.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.contact-us-title {
+  font-size: 3rem;
+  text-align: center;
+  color: white;
+}

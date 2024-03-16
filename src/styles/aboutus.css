@@ -1,0 +1,21 @@
+.about-us-container {
+  margin: 0 auto;
+  padding: 50px;
+  text-align: center;
+  background-image: url("../../public/assets/imgs/NetFlicksLogin.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.about-us-title {
+  font-size: 3rem;
+  text-align: center;
+  color: white;
+}
+.about-us-img {
+  background-image: url("../../public/assets/imgs/movie1.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 1);
+}
