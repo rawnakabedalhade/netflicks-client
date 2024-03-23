@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   TextField,
@@ -24,23 +24,54 @@ import { toast } from "react-toastify";
 import loginContext from "../store/loginContext";
 
 const Login = () => {
-  const { setLogin } = useContext(loginContext);
+  const { setLogin, login } = useContext(loginContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [checked, setChecked] = useState(false);
+  const [failedLoginAttempts, setFailedLoginAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
 
   const navigate = useNavigate();
 
+  const checkUserLoginAttempts = async () => {
+    try {
+      const { data } = await axios.get("/users/" + login._id);
+      if (data.failedLoginAttempts >= 3) {
+        setIsBlocked(true);
+
+        // Set a timeout to unblock the user after 24 hours
+        const unblockTimer = setTimeout(() => {
+          setIsBlocked(false);
+          setFailedLoginAttempts(0);
+          data.failedLoginAttempts = 0; // Reset failed login attempts after unblocking
+        }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
+
+        // Clear the timeout when the component unmounts
+        return () => clearTimeout(unblockTimer);
+      }
+    } catch (err) {
+      console.log(err);
+      // Handle error when fetching user data
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isBlocked) {
+      toast.error(
+        "Your account is temporarily locked. Please try again later."
+      );
+      return;
+    }
     try {
       let { data } = await axios.post("/users/login", {
         email: email,
         password: password,
       });
+      checkUserLoginAttempts();
       if (!checked) {
         localStorage.setItem("token", data);
       } else {
@@ -61,18 +92,33 @@ const Login = () => {
       navigate(ROUTES.HOME);
     } catch (err) {
       console.log("err from axios", err);
-      toast.error("Oops..! Something went wrong", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      setLogin(false);
-      localStorage.clear();
+      setFailedLoginAttempts((prevAttempts) => prevAttempts + 1);
+      if (failedLoginAttempts + 1 >= 3) {
+        toast.error(
+          "Your account is temporarily locked. Please try again later.",
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
+        );
+      } else {
+        toast.error("Oops..! Something went wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     }
   };
   const handleEmailBlur = () => {
@@ -165,6 +211,7 @@ const Login = () => {
             color="primary"
             sx={{ bgcolor: "#db0000", mt: 2 }}
             fullWidth
+            disabled={isBlocked}
             onClick={handleSubmit}
           >
             Login

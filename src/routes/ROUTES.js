@@ -9,7 +9,7 @@ const ROUTES = {
   FAVMOVIES: "/favorite-movies",
   PROFILE: "/profile",
   CREATEMOVIES: "/create-movie",
-  EDITMOVIES: "/edit-movie/:id",
-  MOVIEDETAILS: "/movie-details/:id",
+  EDITMOVIES: "/edit-movie",
+  MOVIEDETAILS: "/movie-details",
 };
 export default ROUTES;

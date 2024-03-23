@@ -3,16 +3,15 @@ import InputBase from "@mui/material/InputBase";
 import { styled } from "@mui/material/styles";
 import { useContext } from "react";
 import movieContext from "../../store/movieContext";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: "#dedede",
-  marginRight: theme.spacing(50),
-  marginLeft: 0,
   width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(9),
-    width: "auto",
+  [theme.breakpoints.up("md")]: {
+    // Adjust width for desktop screens
+    width: "35%",
   },
 }));
 
@@ -31,17 +30,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "#131834",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(10)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: "30ch",
+      width: "50ch", // Adjust width for desktop screens
     },
   },
 }));
+
 const SearchDiv = () => {
   let { setDataFromServer, copyMovies } = useContext(movieContext);
+
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     if (!inputValue || inputValue.length < 1) {
@@ -51,7 +51,6 @@ const SearchDiv = () => {
     const moviesSearch = copyMovies.filter((movie) => {
       return movie.title.includes(inputValue);
     });
-
     setDataFromServer(moviesSearch);
   };
 
@@ -68,4 +67,5 @@ const SearchDiv = () => {
     </Search>
   );
 };
+
 export default SearchDiv;

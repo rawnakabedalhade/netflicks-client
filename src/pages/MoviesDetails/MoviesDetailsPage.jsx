@@ -30,7 +30,6 @@ const MovieDetailsPage = () => {
       },
     ],
   });
-
   useEffect(() => {
     axios.get("/movies/" + id).then(({ data }) => {
       setMovieDetails({
@@ -45,7 +44,7 @@ const MovieDetailsPage = () => {
   };
 
   const handleEditMovie = (id) => {
-    navigate(`${ROUTES.EDITCARD}/${id}`);
+    navigate(`${ROUTES.EDITMOVIES}/${id}`);
   };
 
   const handleFavoriteMovie = (id) => {
@@ -59,6 +58,7 @@ const MovieDetailsPage = () => {
 
   return (
     <MoviesDetailsComponent
+      id={id}
       title={movieDetails.title}
       description={movieDetails.description}
       year={movieDetails.year}

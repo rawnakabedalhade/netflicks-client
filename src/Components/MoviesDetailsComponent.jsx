@@ -1,4 +1,5 @@
 import { Typography, Divider, IconButton, Box, Grid } from "@mui/material";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeIcon from "@mui/icons-material/Mode";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -33,7 +34,6 @@ const MoviesDetailsComponent = ({
   };
 
   const handleEditClick = () => {
-    navigate(`${ROUTES.EDITMOVIES}/${id}`);
     onEdit(id);
   };
 
@@ -48,41 +48,77 @@ const MoviesDetailsComponent = ({
         <img
           src={image[0].url}
           alt={image[0].alt}
-          style={{ maxWidth: "100%", height: "90vh", margin: 5 }}
+          style={{
+            maxWidth: "100%",
+            height: "90vh",
+            margin: 5,
+            objectFit: "contain",
+          }}
         />
       </Grid>
 
       {/* Movie Details */}
       <Grid item xs={12} md={8} sx={{ marginTop: 10 }}>
-        <Typography variant="h3" gutterBottom>
+        <Typography
+          variant="h3"
+          gutterBottom
+          sx={{ color: "#333", fontWeight: 600 }}
+        >
           {title}
         </Typography>
         <Divider />
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom sx={{ color: "#666" }}>
           Description: {description}
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom sx={{ color: "#666" }}>
           Year: {year}
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom sx={{ color: "#666" }}>
           Director: {director}
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom sx={{ color: "#666" }}>
           Category: {category.join(", ")}
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom sx={{ color: "#666" }}>
           Actors: {actors.join(", ")}
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          Trailer: {trailer}
+        <Typography variant="subtitle1" gutterBottom sx={{ color: "#666" }}>
+          Watch Link:{" "}
+          <a
+            href={watchLink}
+            style={{ color: "#007bff", textDecoration: "none" }}
+          >
+            {watchLink}
+          </a>
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          Watch Link: {watchLink}
-        </Typography>
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          <PlayCircleIcon
+            sx={{ fontSize: "30px", marginRight: 1, color: "#db0000" }}
+          />
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            sx={{ color: "#333", fontWeight: 600 }}
+          >
+            Trailer:
+          </Typography>
+        </Box>
+        <Box mt={2} mb={2}>
+          <iframe
+            width="100%"
+            height="315"
+            src={trailer}
+            title="Trailer"
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
+        </Box>
 
         {/* Action buttons */}
         {login && (
-          <Box mt={2}>
+          <Box mt={4}>
             {((login && login.isAdmin) ||
               location.pathname === ROUTES.MYMOVIES) && (
               <IconButton onClick={handleDeleteClick}>

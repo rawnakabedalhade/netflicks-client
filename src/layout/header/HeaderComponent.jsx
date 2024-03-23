@@ -9,12 +9,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Links from "./Links";
-import { Switch } from "@mui/material";
+import { Switch, Hidden } from "@mui/material"; // Import Hidden component
 import SearchDiv from "./search";
+import { useState } from "react"; // Import useState hook
 import loginContext from "../../store/loginContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +22,7 @@ import { useContext } from "react";
 import ROUTES from "../../routes/ROUTES";
 
 import favMoviesCountContext from "../../store/favMoviesCount";
+import LeftDrawer from "../../pages/Home/LeftDrawer";
 
 const pages = ["Movies", "About Us", "Contact Us"];
 const settings = ["Profile", "Logout"];
@@ -29,6 +30,7 @@ const settings = ["Profile", "Logout"];
 const HeaderComponent = ({ isDarkTheme, onThemeChange }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [isOpen, setIsOpen] = useState(false); // Define isOpen state
   const { setLogin } = useContext(loginContext);
   const { favMoviesCount } = useContext(favMoviesCountContext);
   const navigate = useNavigate();
@@ -37,9 +39,14 @@ const HeaderComponent = ({ isDarkTheme, onThemeChange }) => {
     onThemeChange(event.target.checked);
   };
 
+  const handleOpenDrawerClick = () => {
+    setIsOpen(true);
+  };
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -51,6 +58,10 @@ const HeaderComponent = ({ isDarkTheme, onThemeChange }) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleCloseDrawerClick = () => {
+    setIsOpen(false);
+  };
+
   const handleLogout = () => {
     setLogin(null);
     toast.success("LoggedOut Successfully", {
@@ -66,121 +77,74 @@ const HeaderComponent = ({ isDarkTheme, onThemeChange }) => {
     localStorage.clear();
     navigate(ROUTES.LOGIN);
   };
+
   const handleProfile = () => {
     navigate(ROUTES.PROFILE);
   };
+
   const handleFavorite = () => {
     navigate(ROUTES.FAVMOVIES);
   };
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: "black" }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "#c1071e",
-              textDecoration: "none",
-            }}
-          >
-            NetFlicks
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" sx={{ backgroundColor: "black" }}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Hidden mdUp>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                sx={{ mr: 2 }}
+                onClick={handleOpenDrawerClick}
+              >
+                <MenuIcon sx={{ color: "white" }} />
+              </IconButton>
+            </Hidden>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
               sx={{
-                display: { xs: "block", md: "none" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: "",
+                color: "#db0000",
+                textDecoration: "none",
+                display: { xs: "none", md: "block" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-
-          <Typography
-            variant="h5"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "#c1071e",
-              textDecoration: "none",
-            }}
-          >
-            NetFlicks
-          </Typography>
-          <SearchDiv />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
+              NetFlicks
+            </Typography>
+            <Links />
+            <SearchDiv />
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                my: 2,
+                p: 1,
+                display: { xs: "none" },
               }}
             >
               <Typography
-                sx={{ display: { xs: "none", md: "inline", color: "white" } }}
+                sx={{
+                  display: { xs: "none", md: "inline", color: "white" },
+                  mr: 2,
+                }}
               >
                 {isDarkTheme ? "Dark" : "Light"}
               </Typography>
               <Switch checked={isDarkTheme} onChange={handleThemeChange} />
-              <Links />
             </Box>
-
+            <Box sx={{ flexGrow: 1 }} />
             <Box
-              title="Open settings"
               sx={{
-                display: "flex",
+                display: { xs: "none", md: "flex" },
                 justifyContent: "center",
-                flexDirection: "row",
+                alignItems: "center",
               }}
             >
-              <IconButton onClick={handleOpenUserMenu}>
-                <PersonOutlineIcon sx={{ fontSize: "30px", color: "white" }} />
-              </IconButton>
               <IconButton onClick={handleFavorite}>
                 <FavoriteIcon sx={{ fontSize: "30px", color: "white" }} />
                 {favMoviesCount > 0 && (
@@ -197,44 +161,51 @@ const HeaderComponent = ({ isDarkTheme, onThemeChange }) => {
                   />
                 )}
               </IconButton>
+              <IconButton onClick={handleOpenUserMenu}>
+                <PersonOutlineIcon sx={{ fontSize: "30px", color: "white" }} />
+              </IconButton>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign="center"
+                      onClick={() => {
+                        if (setting === "Profile") {
+                          handleProfile();
+                        } else if (setting === "Logout") {
+                          handleLogout();
+                        }
+                      }}
+                    >
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
             </Box>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography
-                    textAlign="center"
-                    onClick={() => {
-                      if (setting === "Profile") {
-                        handleProfile();
-                      } else if (setting === "Logout") {
-                        handleLogout();
-                      }
-                    }}
-                  >
-                    {setting}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Hidden mdUp>
+        <LeftDrawer isOpen={isOpen} onCloseDrawer={handleCloseDrawerClick} />
+      </Hidden>
+    </Box>
   );
 };
+
 export default HeaderComponent;
