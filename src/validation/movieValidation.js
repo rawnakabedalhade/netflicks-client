@@ -30,11 +30,11 @@ const watchLinkSchema = Joi.object({
     .min(14)
     .required(),
 });
-const imageSchema = Joi.object({
-  image: Joi.object().keys({
-    url: Joi.string().uri({ scheme: ["http", "https"] }),
-    alt: Joi.string().min(2).max(256).allow(""),
-  }),
+const urlSchema = Joi.object({
+  url: Joi.string().min(14).allow(""),
+});
+const altSchema = Joi.object({
+  alt: Joi.string().min(2).max(256).allow(""),
 });
 
 const validateTitleSchema = (title) => titleSchema.validate(title);
@@ -47,7 +47,8 @@ const validateActorsSchema = (actors) => actorsSchema.validate(actors);
 const validateTrailerSchema = (trailer) => trailerSchema.validate(trailer);
 const validateWatchLinkSchema = (watchLink) =>
   watchLinkSchema.validate(watchLink);
-const validateImageSchema = (image) => imageSchema.validate(image);
+const validateUrl = (url) => urlSchema.validate(url);
+const validateAlt = (alt) => altSchema.validate(alt);
 
 const validateMovieSchema = {
   title: validateTitleSchema,
@@ -58,7 +59,8 @@ const validateMovieSchema = {
   actors: validateActorsSchema,
   trailer: validateTrailerSchema,
   watchLink: validateWatchLinkSchema,
-  image: validateImageSchema,
+  url: validateUrl,
+  alt: validateAlt,
 };
 
 export default validateMovieSchema;

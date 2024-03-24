@@ -46,8 +46,8 @@ const MoviesDetailsComponent = ({
       {/* Movie Image */}
       <Grid item xs={12} md={4}>
         <img
-          src={image[0].url}
-          alt={image[0].alt}
+          src={image}
+          alt={image}
           style={{
             maxWidth: "100%",
             height: "90vh",

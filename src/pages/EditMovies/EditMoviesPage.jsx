@@ -20,12 +20,8 @@ const EditMoviesPage = () => {
     actors: [""],
     trailer: "",
     watchLink: "",
-    image: [
-      {
-        url: "",
-        alt: "",
-      },
-    ],
+    url: "",
+    alt: "",
   });
   const [errors, setErrors] = useState({
     title: "",
@@ -36,12 +32,8 @@ const EditMoviesPage = () => {
     actors: [""],
     trailer: "",
     watchLink: "",
-    image: [
-      {
-        url: "",
-        alt: "",
-      },
-    ],
+    url: "",
+    alt: "",
   });
   const navigate = useNavigate();
 
@@ -80,9 +72,14 @@ const EditMoviesPage = () => {
   let keysArray = Object.keys(inputsValue);
 
   const handleInputsChange = (e) => {
+    // If the field is 'category' or 'actors', ensure the value is an array
+    const value = ["category", "actors"].includes(e.target.id)
+      ? [e.target.value]
+      : e.target.value;
+
     setInputsValue((cInputsValue) => ({
       ...cInputsValue,
-      [e.target.id]: e.target.value,
+      [e.target.id]: value,
     }));
   };
 
@@ -147,51 +144,19 @@ const EditMoviesPage = () => {
       </Typography>
       <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          {keysArray.map((keyName, index) => {
-            if (keyName === "image") {
-              return inputsValue[keyName].map((image, imgIndex) => (
-                <Grid item xs={12} sm={6}>
-                  <TextInputComponent
-                    key={`input_${keyName}_${imgIndex}_url`}
-                    id={`image_${imgIndex}_url`}
-                    label={`Image ${imgIndex + 1}`}
-                    value={image.url}
-                    onChange={handleInputsChange}
-                    onBlur={handleInputsBlur}
-                    errors={errors[`image_${imgIndex}`]}
-                    required={true}
-                  />
-                  <TextInputComponent
-                    key={`input_${keyName}_${imgIndex}_alt`}
-                    id={`image_${imgIndex}_alt`}
-                    label={`Image ${imgIndex + 1} alt`}
-                    value={image.alt}
-                    onChange={handleInputsChange}
-                    onBlur={handleInputsBlur}
-                    errors={errors[`image_${imgIndex}`]}
-                    required={true}
-                  />
-                </Grid>
-              ));
-            } else {
-              return (
-                <Grid item xs={12} sm={6}>
-                  <TextInputComponent
-                    key={`input_${keyName}_${index}`}
-                    id={keyName}
-                    label={keyName}
-                    value={inputsValue[keyName]}
-                    onChange={handleInputsChange}
-                    onBlur={handleInputsBlur}
-                    errors={errors[keyName]}
-                    required={true}
-                  />
-                </Grid>
-              );
-            }
-          })}
+          {keysArray.map((keyName) => (
+            <TextInputComponent
+              key={"inputs" + keyName}
+              id={keyName}
+              label={keyName}
+              value={inputsValue[keyName]}
+              onChange={handleInputsChange}
+              onBlur={handleInputsBlur}
+              errors={errors[keyName]}
+              required={true}
+            />
+          ))}
         </Grid>
-
         <Button
           type="submit"
           fullWidth

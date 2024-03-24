@@ -23,12 +23,7 @@ const MovieDetailsPage = () => {
     actors: [""],
     trailer: "",
     watchLink: "",
-    image: [
-      {
-        url: "",
-        alt: "",
-      },
-    ],
+    url: "",
   });
   useEffect(() => {
     axios.get("/movies/" + id).then(({ data }) => {
@@ -67,7 +62,7 @@ const MovieDetailsPage = () => {
       actors={movieDetails.actors}
       trailer={movieDetails.trailer}
       watchLink={movieDetails.watchLink}
-      image={movieDetails.image}
+      image={movieDetails.url}
       liked={liked}
       onDelete={handleDeleteMovie}
       onEdit={handleEditMovie}

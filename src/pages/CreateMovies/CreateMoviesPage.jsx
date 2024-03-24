@@ -19,12 +19,8 @@ const CreateMoviesPage = () => {
     actors: [],
     trailer: "",
     watchLink: "",
-    image: [
-      {
-        url: "",
-        alt: "",
-      },
-    ],
+    url: "",
+    alt: "",
   });
   const [errors, setErrors] = useState({
     title: "",
@@ -35,20 +31,21 @@ const CreateMoviesPage = () => {
     actors: "",
     trailer: "",
     watchLink: "",
-    image: [
-      {
-        url: "",
-        alt: "",
-      },
-    ],
+    url: "",
+    alt: "",
   });
   const navigate = useNavigate();
   const { login } = useContext(LoginContext);
   let keysArray = Object.keys(inputsValue);
   const handleInputsChange = (e) => {
+    // If the field is 'category' or 'actors', ensure the value is an array
+    const value = ["category", "actors"].includes(e.target.id)
+      ? [e.target.value]
+      : e.target.value;
+
     setInputsValue((cInputsValue) => ({
       ...cInputsValue,
-      [e.target.id]: e.target.value,
+      [e.target.id]: value,
     }));
   };
 
@@ -112,46 +109,18 @@ const CreateMoviesPage = () => {
       </Typography>
       <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          {keysArray.map((keyName, index) => {
-            if (keyName === "image") {
-              <Grid item xs={12} sm={6}>
-                <TextInputComponent
-                  id={`image_url`}
-                  label={`image_url`}
-                  value={inputsValue[keyName][0].url}
-                  onChange={handleInputsChange}
-                  onBlur={handleInputsBlur}
-                  errors={errors[keyName][0].url}
-                  required={true}
-                />
-              </Grid>;
-              <Grid item xs={12} sm={6}>
-                <TextInputComponent
-                  id={`image_alt`}
-                  label={`image_alt`}
-                  value={inputsValue[keyName][0].alt}
-                  onChange={handleInputsChange}
-                  onBlur={handleInputsBlur}
-                  errors={errors[keyName][0].alt}
-                  required={true}
-                />
-              </Grid>;
-            } else {
-              return (
-                <Grid item xs={12} sm={6} key={`input_${keyName}_${index}`}>
-                  <TextInputComponent
-                    id={keyName}
-                    label={keyName}
-                    value={inputsValue[keyName]}
-                    onChange={handleInputsChange}
-                    onBlur={handleInputsBlur}
-                    errors={errors[keyName]}
-                    required={true}
-                  />
-                </Grid>
-              );
-            }
-          })}
+          {keysArray.map((keyName) => (
+            <TextInputComponent
+              key={"inputs" + keyName}
+              id={keyName}
+              label={keyName}
+              value={inputsValue[keyName]}
+              onChange={handleInputsChange}
+              onBlur={handleInputsBlur}
+              errors={errors[keyName]}
+              required={true}
+            />
+          ))}
         </Grid>
 
         <Button

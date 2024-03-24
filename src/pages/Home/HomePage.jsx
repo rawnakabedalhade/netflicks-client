@@ -95,7 +95,7 @@ const HomePage = () => {
             <MovieComponent
               id={item._id}
               title={item.title}
-              img={item.image[0].url}
+              img={item.image.url}
               liked={item.liked}
               onDelete={handleDeleteMovie}
               onEdit={handleEditeMovie}

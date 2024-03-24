@@ -8,7 +8,8 @@ const fromServer = (dataFromServer) => {
     actors: dataFromServer.actors,
     trailer: dataFromServer.trailer,
     watchLink: dataFromServer.watchLink,
-    image: dataFromServer.image,
+    url: dataFromServer.image.url,
+    alt: dataFromServer.image.url,
   };
 };
 export default fromServer;

@@ -8,10 +8,10 @@ const toServer = (newData) => {
     actors: newData.actors,
     trailer: newData.trailer,
     watchLink: newData.watchLink,
-    image: newData.image.map((img) => ({
-      url: img.url,
-      alt: img.alt || "",
-    })),
+    image: {
+      url: newData.url,
+      alt: newData.alt,
+    },
   };
 };
 export default toServer;
