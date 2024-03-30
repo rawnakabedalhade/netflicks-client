@@ -17,7 +17,6 @@ import { validateSchema } from "../../validation/registerValidation";
 import TextInputComponent from "../../Components/TextInputComponent";
 
 const RegisterPage = () => {
-  const [btn, setbtn] = useState(true);
   const [errors, setErrors] = useState({
     first: "",
     last: "",
@@ -100,7 +99,6 @@ const RegisterPage = () => {
     } else {
       setErrors((copyOfErrors) => {
         delete copyOfErrors[e.target.id];
-        setbtn(false);
         return { ...copyOfErrors };
       });
     }
@@ -169,7 +167,7 @@ const RegisterPage = () => {
           type="submit"
           fullWidth
           sx={{ mt: 3, mb: 2, bgcolor: "#db0000", color: "white" }}
-          disabled={btn}
+          disabled={Object.keys(errors).length > 0}
           className="button-submit"
         >
           Sign Up

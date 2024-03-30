@@ -53,9 +53,12 @@ const ContactUs = () => {
               <Typography variant="h5" color="white">
                 Email Us
               </Typography>
-              <Typography color="white">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Tempora,
+              <Typography
+                color="white"
+                sx={{ marginTop: 2, textAlign: "center" }}
+              >
+                For inquiries, assistance, or feedback, feel free to reach out
+                to us via email at NetFlicks@email.com. We're here to help!
               </Typography>
             </Box>
           </Grid>
@@ -94,9 +97,12 @@ const ContactUs = () => {
               <Typography variant="h5" color="white">
                 Call Us
               </Typography>
-              <Typography color="white">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Tempora,
+              <Typography
+                color="white"
+                sx={{ marginTop: 2, textAlign: "center" }}
+              >
+                Have questions or need immediate assistance? Give us a call at
+                +1234567890. Our dedicated team is ready to assist you.
               </Typography>
             </Box>
           </Grid>
@@ -135,9 +141,12 @@ const ContactUs = () => {
               <Typography variant="h5" color="white">
                 Location
               </Typography>
-              <Typography color="white">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Tempora,
+              <Typography
+                color="white"
+                sx={{ marginTop: 2, textAlign: "center" }}
+              >
+                Visit us at our convenient location: 123 Main Street, Cityville,
+                State, ZIP. We look forward to welcoming you!
               </Typography>
             </Box>
           </Grid>

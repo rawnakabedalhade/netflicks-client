@@ -209,17 +209,17 @@ const Login = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ bgcolor: "#db0000", mt: 2 }}
+            sx={{ bgcolor: "#db0000", my: 2 }}
             fullWidth
             disabled={isBlocked}
             onClick={handleSubmit}
           >
             Login
           </Button>
+          <Link to={ROUTES.REGISTER} className="span">
+            {"Don't have an account? Sign Up"}
+          </Link>
         </Paper>
-        {/* <Link to="#" className="span">
-          {"Don't have an account? Sign Up"}
-        </Link> */}
       </Box>
     </Grid>
   );

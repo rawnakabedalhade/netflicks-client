@@ -34,7 +34,21 @@ const HomePage = () => {
     login ? login._id : undefined
   );
   if (!dataFromServerFiltered || !dataFromServerFiltered.length) {
-    return <Typography>Could not find any items</Typography>;
+    return (
+      <Typography
+        variant="h6"
+        style={{
+          fontFamily:
+            "'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          fontWeight: 400,
+          color: "#fff", // Adjust the color to match Netflix's theme
+          textAlign: "center",
+          marginTop: "20px", // Add spacing from the top
+        }}
+      >
+        Could not find any items
+      </Typography>
+    );
   }
   const handleDeleteMovie = (id) => {
     handleDelete(id);

@@ -14,6 +14,7 @@ import CreateMoviesPage from "../pages/CreateMovies/CreateMoviesPage";
 import EditMoviesPage from "../pages/EditMovies/EditMoviesPage";
 import MovieDetailsPage from "../pages/MoviesDetails/MoviesDetailsPage";
 import CRMPage from "../pages/CRM/CrmPage";
+import MyMovies from "../pages/MyMovies/MyMoviesPage";
 const Router = () => {
   return (
     <Routes>
@@ -23,6 +24,7 @@ const Router = () => {
       <Route path={ROUTES.CONTACT} element={<ContactUs />} />
       <Route path={ROUTES.ABOUT} element={<AboutUs />} />
       <Route path={ROUTES.FAVMOVIES} element={<FavMoviesPage />} />
+      <Route path={ROUTES.MYMOVIES} element={<MyMovies />} />
       <Route
         path={`${ROUTES.MOVIEDETAILS}/:id`}
         element={<MovieDetailsPage />}
