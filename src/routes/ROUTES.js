@@ -11,5 +11,7 @@ const ROUTES = {
   CREATEMOVIES: "/create-movie",
   EDITMOVIES: "/edit-movie",
   MOVIEDETAILS: "/movie-details",
+  FORGOTPASSWORD: "/forgot-password",
+  RESETPASSWORD: "/reset-password",
 };
 export default ROUTES;

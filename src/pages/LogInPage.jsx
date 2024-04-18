@@ -22,9 +22,13 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import loginContext from "../store/loginContext";
+import favMoviesCountContext from "../store/favMoviesCount";
 
 const Login = () => {
   const { setLogin, login } = useContext(loginContext);
+  const { favMoviesCount, setFavMoviesCount } = useContext(
+    favMoviesCountContext
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -216,9 +220,16 @@ const Login = () => {
           >
             Login
           </Button>
-          <Link to={ROUTES.REGISTER} className="span">
-            {"Don't have an account? Sign Up"}
-          </Link>
+          <Box sx={{ mt: 1 }}>
+            <Link to={ROUTES.REGISTER} className="span">
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Box>
+          <Box sx={{ mt: 1 }}>
+            <Link to={ROUTES.FORGOTPASSWORD} className="span">
+              {"Forgot your password?"}
+            </Link>
+          </Box>
         </Paper>
       </Box>
     </Grid>

@@ -11,18 +11,18 @@ const useFavoritemovie = () => {
   );
   const { login } = useContext(loginContext);
 
-  // Function to update the local storage with the updated count
-  const updateLocalStorageCount = (count) => {
-    localStorage.setItem("favMoviesCount", JSON.stringify(count));
-  };
-
   useEffect(() => {
     // Retrieve the count from local storage on component mount
-    const storedCount = JSON.parse(localStorage.getItem("favMoviesCount"));
-    if (storedCount !== null) {
-      setFavMoviesCount(storedCount);
-    }
-  }, []);
+    const storedCount =
+      parseInt(localStorage.getItem(`favMoviesCount_${login._id}`)) || 0;
+    setFavMoviesCount(storedCount);
+  }, [login]);
+
+  // Function to update the local storage with the updated count
+  const updateLocalStorageCount = (count) => {
+    localStorage.setItem(`favMoviesCount_${login._id}`, count.toString());
+    setFavMoviesCount(count);
+  };
 
   const handleFavorite = async (id) => {
     try {

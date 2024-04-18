@@ -15,6 +15,9 @@ import EditMoviesPage from "../pages/EditMovies/EditMoviesPage";
 import MovieDetailsPage from "../pages/MoviesDetails/MoviesDetailsPage";
 import CRMPage from "../pages/CRM/CrmPage";
 import MyMovies from "../pages/MyMovies/MyMoviesPage";
+import ForgotPasswprd from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
+
 const Router = () => {
   return (
     <Routes>
@@ -25,6 +28,11 @@ const Router = () => {
       <Route path={ROUTES.ABOUT} element={<AboutUs />} />
       <Route path={ROUTES.FAVMOVIES} element={<FavMoviesPage />} />
       <Route path={ROUTES.MYMOVIES} element={<MyMovies />} />
+      <Route path={ROUTES.FORGOTPASSWORD} element={<ForgotPasswprd />} />
+      <Route
+        path={`${ROUTES.RESETPASSWORD}/:id/:token`}
+        element={<ResetPassword />}
+      />
       <Route
         path={`${ROUTES.MOVIEDETAILS}/:id`}
         element={<MovieDetailsPage />}
