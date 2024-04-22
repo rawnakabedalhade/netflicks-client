@@ -5,24 +5,18 @@ import favMoviesCountContext from "../store/favMoviesCount";
 import loginContext from "../store/loginContext";
 
 const useFavoritemovie = () => {
-  let { setDataFromServer } = useContext(movieContext);
+  let { setDataFromServer, dataFromServer } = useContext(movieContext);
   const { favMoviesCount, setFavMoviesCount } = useContext(
     favMoviesCountContext
   );
   const { login } = useContext(loginContext);
 
   useEffect(() => {
-    // Retrieve the count from local storage on component mount
-    const storedCount =
-      parseInt(localStorage.getItem(`favMoviesCount_${login._id}`)) || 0;
+    const storedCount = dataFromServer.filter((movie) =>
+      movie.likes.includes(login._id)
+    ).length;
     setFavMoviesCount(storedCount);
-  }, [login]);
-
-  // Function to update the local storage with the updated count
-  const updateLocalStorageCount = (count) => {
-    localStorage.setItem(`favMoviesCount_${login._id}`, count.toString());
-    setFavMoviesCount(count);
-  };
+  }, [login._id]);
 
   const handleFavorite = async (id) => {
     try {
@@ -36,13 +30,11 @@ const useFavoritemovie = () => {
           if (isLiked) {
             setFavMoviesCount((prevCount) => {
               const newCount = prevCount + 1;
-              updateLocalStorageCount(newCount); // Update local storage
               return newCount;
             });
           } else {
             setFavMoviesCount((prevCount) => {
               const newCount = prevCount - 1;
-              updateLocalStorageCount(newCount); // Update local storage
               return newCount;
             });
           }

@@ -1,25 +1,29 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Badge from "@mui/material/Badge";
-import Container from "@mui/material/Container";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+  Badge,
+  Container,
+  Switch,
+  Hidden,
+} from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import MenuItem from "@mui/material/MenuItem";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import MenuIcon from "@mui/icons-material/Menu";
 import Links from "./Links";
-import { Switch, Hidden } from "@mui/material"; // Import Hidden component
 import SearchDiv from "./search";
-import { useState } from "react"; // Import useState hook
+import { useState, useContext } from "react"; // Import useState hook
 import loginContext from "../../store/loginContext";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
+import NightsStayIcon from "@mui/icons-material/NightsStay";
+import Brightness5Icon from "@mui/icons-material/Brightness5";
 
 import favMoviesCountContext from "../../store/favMoviesCount";
 import LeftDrawer from "../../pages/Home/LeftDrawer";
@@ -34,6 +38,7 @@ const HeaderComponent = ({ isDarkTheme, onThemeChange }) => {
   const { setLogin } = useContext(loginContext);
   const { favMoviesCount } = useContext(favMoviesCountContext);
   const navigate = useNavigate();
+  let location = useLocation();
 
   const handleThemeChange = (event) => {
     onThemeChange(event.target.checked);
@@ -119,85 +124,106 @@ const HeaderComponent = ({ isDarkTheme, onThemeChange }) => {
               NetFlicks
             </Typography>
             <Links />
-            <SearchDiv />
-            <Box
-              sx={{
-                my: 2,
-                p: 1,
-                display: { xs: "none" },
-              }}
-            >
-              <Typography
-                sx={{
-                  display: { xs: "none", md: "inline", color: "white" },
-                  mr: 2,
-                }}
-              >
-                {isDarkTheme ? "Dark" : "Light"}
-              </Typography>
-              <Switch checked={isDarkTheme} onChange={handleThemeChange} />
-            </Box>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box
-              sx={{
-                display: { xs: "none", md: "flex" },
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <IconButton onClick={handleFavorite}>
-                <FavoriteIcon sx={{ fontSize: "30px", color: "white" }} />
-                {favMoviesCount > 0 && (
-                  <Badge
-                    badgeContent={favMoviesCount}
-                    color="error"
+            {location.pathname !== ROUTES.LOGIN &&
+              location.pathname !== ROUTES.REGISTER && <SearchDiv />}
+            {location.pathname !== ROUTES.LOGIN &&
+              location.pathname !== ROUTES.REGISTER && (
+                <Box
+                  sx={{
+                    my: 2,
+                    p: 1,
+                    display: { xs: "none", md: "flex" },
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
                     sx={{
-                      position: "absolute",
-                      top: 9,
-                      right: 9,
-                      justifyContent: "center",
-                      alignItems: "center",
+                      display: { xs: "none", md: "inline" },
+                      mr: 1,
+                      color: "white",
                     }}
+                  >
+                    {isDarkTheme ? "Dark" : "Light"}
+                  </Typography>
+                  <Switch
+                    checked={isDarkTheme}
+                    onChange={handleThemeChange}
+                    color="default"
+                    icon={
+                      <Brightness5Icon sx={{ fontSize: "25px" }} /> // Light mode icon
+                    }
+                    checkedIcon={
+                      <NightsStayIcon sx={{ fontSize: "25px" }} /> // Dark mode icon
+                    }
                   />
-                )}
-              </IconButton>
-              <IconButton onClick={handleOpenUserMenu}>
-                <PersonOutlineIcon sx={{ fontSize: "30px", color: "white" }} />
-              </IconButton>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography
-                      textAlign="center"
-                      onClick={() => {
-                        if (setting === "Profile") {
-                          handleProfile();
-                        } else if (setting === "Logout") {
-                          handleLogout();
-                        }
-                      }}
-                    >
-                      {setting}
-                    </Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
+                </Box>
+              )}
+            <Box sx={{ flexGrow: 1 }} />
+            {location.pathname !== ROUTES.LOGIN &&
+              location.pathname !== ROUTES.REGISTER && (
+                <Box
+                  sx={{
+                    display: { xs: "none", md: "flex" },
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton onClick={handleFavorite}>
+                    <FavoriteIcon sx={{ fontSize: "30px", color: "white" }} />
+                    {favMoviesCount > 0 && (
+                      <Badge
+                        badgeContent={favMoviesCount}
+                        color="error"
+                        sx={{
+                          position: "absolute",
+                          top: 9,
+                          right: 9,
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      />
+                    )}
+                  </IconButton>
+                  <IconButton onClick={handleOpenUserMenu}>
+                    <PersonOutlineIcon
+                      sx={{ fontSize: "30px", color: "white" }}
+                    />
+                  </IconButton>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                        <Typography
+                          textAlign="center"
+                          onClick={() => {
+                            if (setting === "Profile") {
+                              handleProfile();
+                            } else if (setting === "Logout") {
+                              handleLogout();
+                            }
+                          }}
+                        >
+                          {setting}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Box>
+              )}
           </Toolbar>
         </Container>
       </AppBar>

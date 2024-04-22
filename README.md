@@ -7,6 +7,12 @@ Welcome to the NetFlicks App! This application is designed to provide users with
 - **Browse Movies**: Users can explore a wide range of movies available on the platform.
 - **Interaction**: Users can like and comment on movies to engage with the community.
 - **Search Functionality**: The app includes a search feature to help users find specific movies quickly and easily.
+- **Movie Details**: Users can view additional details about movies including description,year,actors, and more.
+- **CRUD Operations**: Users have the ability to perform CRUD (Create, Read, Update, Delete) operations .
+- **Forgot Password**: In case users forget their password, they can easily reset it through a password recovery process. This ensures that users can regain access to their account without any hassle.
+- **Change Profile**: Users can update their profile information, including their username, email, and profile picture and more. to keep their account details up to date.
+- **Admin Panel**: Admin users have the ability to make changes to user statuses, . This allows for effective management of the platform and user community.
+- **Account Lockout**: If a user attempts to log in unsuccessfully three times, the account will be temporarily blocked for four hours as a security measure to prevent unauthorized access.
 
 ## Installation
 
@@ -17,12 +23,6 @@ To run the NetFlicks app locally, follow these steps:
 3. Run `npm install` to install the dependencies.
 4. Run `npm start` to start the development server.
 5. Open your browser and visit [http://localhost:3000](http://localhost:3000) to view the application.
-
-## Usage
-
-- **Browsing Movies**: Upon opening the application, users will see a collection of movies available for browsing.
-- **Interacting with Movies**: Users can like and comment on movies to interact with the community.
-- **Searching for Movies**: Users can use the search functionality to find specific movies by title.
 
 ## Technologies Used
 
