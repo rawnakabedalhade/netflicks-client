@@ -17,6 +17,7 @@ import CRMPage from "../pages/CRM/CrmPage";
 import MyMovies from "../pages/MyMovies/MyMoviesPage";
 import ForgotPasswprd from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import ErrorPage from "../pages/ErrorPage";
 
 const Router = () => {
   return (
@@ -69,6 +70,7 @@ const Router = () => {
           </AdminGuard>
         }
       />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 };
